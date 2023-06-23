@@ -74,7 +74,7 @@ peaks$ID <- 1:length(peaks)
 
 ### c. Disjoin peaks
 The next step is to perform a disjoin of the peaks. This means that two overlapping peaks are split into three regions, with region 1 corresponding to the region unique to peak1, regions 2 being the region where both peaks overlap, and region 2 correspoing to the region unique to peak3. The figure below illustrates this.
-
+![Disjoin](disjoin.png)
 
 
 
