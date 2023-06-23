@@ -45,12 +45,55 @@ sambamba sort -t 15 -o /gpfs/projects/bsc08/bsc08471/p53/results/HCT116/Omics/RN
 ```
 
 ### b. Count
-Using featureCouts, we can 
+Using featureCounts, we can obtain a count matrix of the chosen samples
 ```{bash}
-featureCounts -a $GTF -p -B -C -T 15 -o $OUTFILE.csv $BAM1 $BAM2 
+featureCounts -a $GTF -p -B -C -T 15 -o $OUTFILE.csv $BAM1 $BAM2
 ```
 
 ## 4. Differential Analysis
+
+Finally, we can perform the differential expression analysis between samples of your choice.
+
+### a. Create count matrix
+Before performing the differential expression analysis, you have to prepare a count matrix with all the samples and corresponding replicates you will to use.
+
 ```{r}
+files <- list.files(path = "/path/to/featureCounts/out", pattern = "*.csv$", recursive = T, full.names = T)
+
+countdata <- matrix(data.table::fread(files[1])$Geneid)
+colnames(countdata) <- "Geneid"
+for (i in files) 
+{
+  a <- data.table::fread(i)
+  a <- a[ ,-(2:6)]
+  colnames(a)[-1] <- gsub("\\.[sb]am$", "", basename(colnames(a)[-1]))
+  a <- as.matrix(a)
+  countdata <- merge(countdata,a, by="Geneid")
+}
+
+countdata[,-1] <- apply(countdata[,-1], 2, as.numeric)
+
+data.table::fwrite(countdata, file = "count_table.txt",col.names = T, row.names = F, quote = F, sep = "\t")
 ```
+### b. DEA
+Using the complete count matrix, you can now use DESeq2 to perform your analysis
+```{r}
+# read count matrix
+count_matrix <- read.table("path/to/count_matrix.txt",header=T)
+colnames(count_matrix) <- c("geneID","Sample1_1", "Sample1_2", "Sample2_1", "Sample2_2")
+rownames(count_matrix) <- count_matrix$geneID
+count_matrix$geneID <- NULL
+
+dds <- DESeqDataSetFromMatrix(countData = count_matrix,
+                              colData = coldata,
+                              design = ~ tissue)
+
+dds <- estimateSizeFactors(dds)
+
+dds <- DESeq(dds)
+
+res <- results(dds,contrast=c("tissue","Sample1","Sample2"))
+
+```
+
 
