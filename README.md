@@ -13,21 +13,13 @@ The `figures` folder contains script and folder to (re)generate stats and figure
 
 ## Prerequisites
 
-### python libraries
-
- - scipy
- - numpy
- - mapltolib
- - TADbit (https://github.com/fransua/tadbit/tree/p53_javierre)
- - bioframe
-
-### R libraries
+Specific prerequisite are listed in each section of `preprocessing` (see below), and in the `figures` section.
 
 ## Preprocessing
 
 | Datatype | link |
 |----------|------|
-| ChIP-Seq | |
-| Hi-C     | |
-| PCHiC    | |
-| RNA-seq  | |
+| [ChIP-Seq](https://github.com/JavierreLab/p53/tree/aa33b51f82edaeaa61aa02ab13e4bae03e0c718e/preprocessing/ChIP) | |
+| [Hi-C](https://github.com/JavierreLab/p53/tree/aa33b51f82edaeaa61aa02ab13e4bae03e0c718e/preprocessing/HiC) | |
+| [PCHiC](https://github.com/JavierreLab/p53/tree/aa33b51f82edaeaa61aa02ab13e4bae03e0c718e/preprocessing/PCHiC)    | |
+| [RNA-seq](https://github.com/JavierreLab/p53/tree/aa33b51f82edaeaa61aa02ab13e4bae03e0c718e/preprocessing/RNA)  | |
