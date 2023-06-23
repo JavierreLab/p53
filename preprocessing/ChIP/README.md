@@ -73,83 +73,118 @@ peaks$ID <- 1:length(peaks)
 ```
 
 ### c. Disjoin peaks
-The next step is to perform a disjoin of the peaks. This means that two overlapping peaks are split into three regions, with region 1 corresponding to the region unique to peak1, regions 2 being the region where both peaks overlap, and region 2 correspoing to the region unique to peak3. The figure below illustrates this.
+The next step is to perform a disjoin of the peaks. This means that two overlapping peaks are split into three regions, with region 1 corresponding to the region unique to peak1, regions 2 being the region where both peaks overlap, and region 2 correspoing to the region unique to peak3. The figure below illustrates this.  
+
 ![Disjoin](disjoin.png)
-
-
-
 
 ```{r}
 # disjoin peaks
 peak_disj <- disjoin(peaks,with.revmap=T)
 ```
 
-
+### d. Count reads in regions
+In this step we can quantify the number of reads falling in each region per bam file (per sample)
 ```{r}
 # count reads falling in each region of peak_disj for each sample in bam_files
 param <- readParam()
+
+# counting
 peak_count <- regionCounts(bam.files = bam_files, regions = peak_disj,
                            ext = NA, param = param, 
-                           BPPARAM = BatchtoolsParam(workers = length(bam_files)*2))     
+                           BPPARAM = BatchtoolsParam(workers = length(bam_files)*2))   
+```
+
+### e. Format and save peakmatrix
+Finally, we can format the resulting quantification and save as a peakmatrix, where each row reflects a region and each column represents a bam file (sample).
+```{r}
 peak_df <- as.data.frame(assay(peak_count))
 colnames(peak_df) <- colData(peak_count)$bam.files
 peak_df$region <- paste(seqnames(rowRanges(peak_count)),ranges(rowRanges(peak_count)), sep = ":")
+
 data.table::fwrite(peak_df[,c(ncol(peak_df),1:(ncol(peak_df)-1))], file=paste0(out_dir,"/peak_matrix_counts.tsv"), row.names = F, col.names = T, quote = F, sep = "\t")
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+## 7. Generating Background Matrix
+Repeat steps 6a-c first
 
-## Running the tests
+### d. Count background reads
+Quantify background noise in 10kb bins
+```{r}
 
-Explain how to run the automated tests for this system
+# discard disjoined peaks from background counting
+param <- readParam(discard=peak_disj)
 
-### Break down into end to end tests
+# count background noise
+bg_count <- windowCounts(bam.files = bam_files, width = 10000, spacing = 10000,
+                         ext = NA, filter = 0, param = param, 
+                         BPPARAM = BatchtoolsParam(workers = length(bam_files)*2))
+```
+### e. Format and save background matrix
+Finally, we can format the resulting bacground quantification and save as a background matrix, where each row reflects a 10kb bin and each column represents a bam file (sample).
+```{r} 
+bg_df <- as.data.frame(assay(bg_count))
+colnames(bg_df) <- colData(bg_count)$bam.files
+bg_df$region <- paste(seqnames(rowRanges(bg_count)),ranges(rowRanges(bg_count)), sep = ":")
+ 
+data.table::fwrite(bg_df[,c(ncol(bg_df),1:(ncol(bg_df)-1))], file=paste0(out_dir,"/background_counts.tsv"), row.names = F, col.names = T, quote = F, sep = "\t")
+```
 
-Explain what these tests test and why
+## 8. Differential Analysis
+In this final step, we perform the differential analysis of a histone mark. The output will be a table with regions found with a significant differential deposition of a histone mark (gain or loss). 
+
+### a. Estimate size factors of background matrix  
+Size factors (normalization factors) of bacground matrix have to be computed in order to perform the background correction to our peak matrix for proper normalisation before differential analysis.
+```{r}
+library(DESeq2)
+
+# read background matrix
+background_matrix <- read.table("path/to/background_matrix.txt",header=T)
+colnames(background_matrix) <- c("regions","Sample1_1", "Sample1_2", "Sample2_1", "Sample2_2")
+rownames(background_matrix) <- background_matrix$regions
+background_matrix$regions <- NULL
+
+# prepare metadata
+coldata <- data.frame(id=c("Sample1_1", "Sample1_2", "Sample2_1", "Sample2_2") ,
+                      tissue=c("Sample1", "Sample1", "Sample2", "Sample2"),
+                      rep=c(1, 2, 1, 2))
+rownames(coldata) <- coldata$id
+
+
+dds <- DESeqDataSetFromMatrix(countData = background_matrix,
+                              colData = coldata,
+                              design = ~ tissue)
+
+# estimate size factors
+dds <- estimateSizeFactors(dds)
+sf <- sizeFactors(dds)
+```
+### b. Background correction
+Correct peakmatrix for background signal using the background matrix's size factors.
+```{r}
+
+# read peakmatrix
+count_matrix <- read.table("path/to/peak_matrix.txt",header=T)
+colnames(count_matrix) <- c("regions","Sample1_1", "Sample1_2", "Sample2_1", "Sample2_2")
+rownames(count_matrix) <- count_matrix$regions
+count_matrix$regions <- NULL
+
+dds <- DESeqDataSetFromMatrix(countData = count_matrix,
+                              colData = coldata,
+                              design = ~ tissue)
+
+# apply pre-compute size factors with background regions - background correction
+sizeFactors(dds) <- sf
 
 ```
-Give an example
+### c. Differential Analysis  
+Finally, we can perform the differential analysis between samples. Remember this has to be done with more than one replicate per sample, so if you want to perform this step, you have to generate the peak and background matrices with this in mind.
+```{r}
+dds <- DESeq(dds)
+res <- results(dds,contrast=c("tissue","Sample1","Sample2"))
 ```
 
-### And coding style tests
 
-Explain what these tests test and why
 
-```
-Give an example
-```
 
-## Deployment
 
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
