@@ -1,6 +1,6 @@
 TODO: make Zenodo (only when public)
 
-<img src="https://github.com/JavierreLab/p53/assets/106498/c485c9ec-c9d2-4838-89a5-89c783b1ac26" width="300" ALIGN="left">
+<img src="https://github.com/JavierreLab/p53/assets/86778675/fca5a6f5-e09a-44a1-a12d-9e1fcc0d6299"  width="300" ALIGN="left">
 
 # p53 rapidly restructures 3D chromatin organization to trigger a transcriptional response
 
