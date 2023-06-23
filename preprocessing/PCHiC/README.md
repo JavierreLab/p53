@@ -1,4 +1,4 @@
-# ChIP-seq processing
+# PCHi-C processing
 
 *This README will be finished soon.*
 
