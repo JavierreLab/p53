@@ -11,9 +11,9 @@ Nonetheless, the `data` folder allows to skip the preprocessing step as it conta
 
 The `figures` folder contains script and folder to (re)generate stats and figures from the manuscript.  
 
-## Prerequisites
+## Dependencies
 
-Specific prerequisite are listed in each `preprocessing` section (see below), and in the `figures` section.
+Specific dependencies are listed in each `preprocessing` section (see below), and in the `figures` section.
 
 ## Preprocessing
 
