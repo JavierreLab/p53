@@ -1,4 +1,4 @@
-# RNA-seq processing
+# Hi-C processing
 
 *This README will be finished soon* 
 
