@@ -11,7 +11,7 @@ Here, you can find a detailed description of how RNA-seq data was processed in t
 * [STAR](https://github.com/alexdobin/STAR/tree/master)
 * [samtools](http://www.htslib.org/download/)
 * [sambamba](https://github.com/biod/sambamba)
-* [featureCounts](https://rnnh.github.io/bioinfo-notebook/docs/featureCounts.html))
+* [featureCounts](https://rnnh.github.io/bioinfo-notebook/docs/featureCounts.html)
 * [DESeq2 (R package)](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
 
 
