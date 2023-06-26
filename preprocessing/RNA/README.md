@@ -1,7 +1,5 @@
 # RNA-seq processing
 
-*This README will be finished soon* 
-
 Here, you can find a detailed description of how RNA-seq data was processed in this project.
 
 ## Dependencies
