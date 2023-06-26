@@ -14,8 +14,8 @@ library(msigdbr)
 ## Figure 5A ----
 # Venn diagram distal target genes
 
-nut1h <- read_rds("../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin1h.Rds") # Tables resulting from distal_integration_PCHiC.R
-nut10h <- read_rds("../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin10h.Rds")
+nut1h <- read_rds("../../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin1h.Rds") # Tables resulting from distal_integration_PCHiC.R
+nut10h <- read_rds("../../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin10h.Rds")
 
 # visualize
 grid.newpage()
@@ -33,14 +33,14 @@ gr2 <- makeGRangesFromDataFrame(nut10h %>% separate(p53,c("chr","start","end"),s
 p53_gr <- unique(c(gr1,gr2))
 
 ## interactions
-dmso <- HiCaptuRe::load_interactions("../data/ComplementaryData/PCHiC/DMSO_WT_merged_recalibrated2WTDMSO_cutoff_5.ibed")
-dmso <- HiCaptuRe::annotate_interactions(dmso,annotation = "../data/ComplementaryData/PCHiC/baits_coordinates_annotated_ensembl_gene_id_GRCh37_87.bed")
+dmso <- HiCaptuRe::load_interactions("../../data/ComplementaryData/PCHiC/DMSO_WT_merged_recalibrated2WTDMSO_cutoff_5.ibed") # chicago output
+dmso <- HiCaptuRe::annotate_interactions(dmso,annotation = "../../data/ComplementaryData/PCHiC/baits_coordinates_annotated_ensembl_gene_id_GRCh37_87.bed") # our annotation data for PCHiC
 
 ## promoters
-promoters <- read_rds("../data/ComplementaryData/promoters_PCHiC.Rds")
+promoters <- read_rds("../../data/ComplementaryData/promoters_PCHiC.Rds") # promoters computes as -1000/+200 from PCHiC annotation
 
 ## integrate
-source("../scripts/integration_function.R")
+source("../../scripts/integration_function.R") # own function
 link_dmso <- p53_genes_interactions(ints=dmso,p53.chip =p53_gr, promoter.annot = promoters,at.promoter=F,interaction.type = "P_OE")
 upset(fromList(list(DMSO=unique(link_dmso$ensg),Nutlin1h=unique(nut1h$ensg),Nutlin10h=unique(nut10h$ensg))))
 
@@ -67,7 +67,7 @@ target_genes <- gi@elementMetadata$anchor1.ensembl_gene_id
 dist_p53_targetgene <- dist_p53_targetgene[!is.na(dist_p53_targetgene)]
 
 # compute distal nearest target gene
-promoters_all <- read_rds("../data/ComplementaryData/promoters_GRCh37.87.Rds")
+promoters_all <- read_rds("../../data/ComplementaryData/promoters_GRCh37.87.Rds") # promoters -1000/+200 all genomic GTF GRCh37v87
 nearest_p53chip <- nearest(x = unique(p53_chip), subject = promoters_all, ignore.strand=T)
 gi2 <- GenomicInteractions(promoters_all[nearest_p53chip],unique(p53_chip))
 nearest_genes <- gi2@elementMetadata$anchor1.ensembl_gene_id
@@ -109,7 +109,7 @@ target_genes <- gi@elementMetadata$anchor1.ensembl_gene_id
 dist_p53_targetgene <- dist_p53_targetgene[!is.na(dist_p53_targetgene)]
 
 # compute distance nearest target genes
-promoters_all <- read_rds("../data/ComplementaryData/promoters_GRCh37.87.Rds")
+promoters_all <- read_rds("../../data/ComplementaryData/promoters_GRCh37.87.Rds")
 nearest_p53chip <- nearest(x = unique(p53_chip), subject = promoters_all, ignore.strand=T)
 gi2 <- GenomicInteractions(promoters_all[nearest_p53chip],unique(p53_chip))
 nearest_genes <- gi2@elementMetadata$anchor1.ensembl_gene_id
@@ -143,16 +143,16 @@ p2
 # GSEA bubble plot p53 target genes
 
 
-nut1h <- read_rds("../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin1h.Rds") # Tables resulting from distal_integration_PCHiC.R
-nut10h <- read_rds("../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin10h.Rds")
-nut1h_p <- read_rds("../data/ComplementaryData/PCHiC_integration/proximal_integration_Nutlin1h.Rds") # Tables from proximal_integration_PCHiC.R
-nut10h_p <- read_rds("../data/ComplementaryData/PCHiC_integration/proximal_integration_Nutlin10h.Rds")
+nut1h <- read_rds("../../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin1h.Rds") # Tables resulting from distal_integration_PCHiC.R
+nut10h <- read_rds("../../data/ComplementaryData/PCHiC_integration/distal_integration_Nutlin10h.Rds")
+nut1h_p <- read_rds("../../data/ComplementaryData/PCHiC_integration/proximal_integration_Nutlin1h.Rds") # Tables from proximal_integration_PCHiC.R
+nut10h_p <- read_rds("../../data/ComplementaryData/PCHiC_integration/proximal_integration_Nutlin10h.Rds")
 
 ## GFF promoters
-promoters_all <- read_rds("../data/ComplementaryData/promoters_GRCh37.87.Rds")
+promoters_all <- read_rds("../../data/ComplementaryData/promoters_GRCh37.87.Rds")
 
 ## PCHiC promoters
-promoters <- read_rds("../data/ComplementaryData/promoters_PCHiC.Rds")
+promoters <- read_rds("../../data/ComplementaryData/promoters_PCHiC.Rds")
 
 ## return target genes and nearest genes for 2 conditions
 list_link <- list(nutlin1h=nut1h,nutlin10h=nut10h)
@@ -231,14 +231,14 @@ ggplot(plot_gsea,aes(type,ID,size=Count,color=p.adjust)) +
   theme(axis.text = element_text(size = 12),
         axis.title = element_text(size = 14,face = "bold"),
         axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  scale_colour_viridis(discrete = F,begin = 0.8)
+  viridis::scale_colour_viridis(discrete = F,begin = 0.8)
 
 
 ## Figure 5E/H ----
 # H3K27ac of CREs: enhancer-bound p53, promoter-bound p53 and control
 
-DE_H3K27ac_Nutlin1h <- read_rds("../data/ComplementaryData/H3K27ac/DE_H3K27ac_Nutlin1h.Rds")
-DE_H3K27ac_Nutlin10h <- read_rds("../data/ComplementaryData/H3K27ac/DE_H3K27ac_Nutlin10h.Rds")
+DE_H3K27ac_Nutlin1h <- read_rds("../../data/ComplementaryData/H3K27ac/DE_H3K27ac_Nutlin1h.Rds")
+DE_H3K27ac_Nutlin10h <- read_rds("../../data/ComplementaryData/H3K27ac/DE_H3K27ac_Nutlin10h.Rds")
 
 ## H3K27ac log2FC at promoters nutlin1h
 gr_p <- makeGRangesFromDataFrame(as.data.frame(do.call("rbind",str_split(unique(nut1h_p$promoter_target_gene),":|-"))),seqnames.field = "V1",start.field = "V2",end.field = "V3")
@@ -442,8 +442,8 @@ p2
 ## Figure 5G/J ----
 # Expression of target genes to enhancer-bound p53, promoter-bound p53 and control
 
-expr_1h <- read_rds("../data/DE_Expr_Nutlin1h.Rds")
-expr_10h <- read_rds("../data/DE_Expr_Nutlin10h.Rds")
+expr_1h <- read_rds("../../data/ComplementaryData/expression/DE_Expr_Nutlin1h.Rds")
+expr_10h <- read_rds("../../data/ComplementaryData/expression/DE_Expr_Nutlin10h.Rds")
 
 # p53 at promoter
 merge <- expr_1h[expr_1h$ensg %in% nut1h_p$target_gene,]
@@ -527,7 +527,7 @@ p2
 ## Figure 5K ----
 # qRT-PCR relative expression of distal target genes
 
-x <- read_rds("../data/ComplementaryData/qrtpcr/qRTPCR_relative_expression.Rds")
+x <- read_rds("../../data/ComplementaryData/qrtpcr/qRTPCR_relative_expression.Rds")
 
 
 x <- x %>% group_by(Cond,variable) %>% summarize(mean=mean(value),sd=sd(value))
