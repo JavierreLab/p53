@@ -5,7 +5,7 @@ library(tidyverse)
 
 # Figure 7A ----
 
-dds <- read_rds("../../data/ComplementaryData/H3K27ac/degron/normalised_peakmatrix_H3K27ac_WT_KD.Rds")
+dds <- read_rds("../../data/ComplementaryData/H3K27ac/degron/normalised_peakmatrix_H3K27ac_WT_KD.Rds") # file too large for github
 dds_rlog <- rlog(dds,blind=T)
 dds_rlog <- assay(dds_rlog)
 
