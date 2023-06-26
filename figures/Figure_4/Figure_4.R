@@ -6,9 +6,11 @@ library(DESeq2)
 library(HiCaptuRe)
 library(VennDiagram) 
 library(corrplot)
+library(data.table)
+
 
 ## Figure 4A ----
-pkm <- load_interactions(file = "~/MN4/Scratch_Monica/recalibration_try/peakmatrix_recalibrated2WTDMSO.txt")
+pkm <- load_interactions(file = "../../data/ComplementaryData/PCHiC/peakmatrix_recalibrated2WTDMSO.txt") # chicago output
 pkm2 <- as.data.frame(pkm@elementMetadata[,6:c(ncol(pkm@elementMetadata)-1)])
 
 cor_matrix <- cor(pkm2)
@@ -24,21 +26,20 @@ ComplexHeatmap::Heatmap(cor_matrix,col=col,heatmap_legend_param = list(title = "
 
 
 ## Figure 4B ----
-pkm <- load_interactions(file = "~/MN4/Scratch_Monica/recalibration_try/peakmatrix_recalibrated2WTDMSO.txt")
+pkm <- load_interactions(file = "../../data/ComplementaryData/PCHiC/peakmatrix_recalibrated2WTDMSO.txt") # chicago output
 pkm2 <- as.data.frame(pkm@elementMetadata[,6:c(ncol(pkm@elementMetadata)-1)])
 
 pca_res <- prcomp(t(pkm2))
 res <- as.data.frame(pca_res$x)
 res$sample <- rownames(res)
 res$condition <- gsub("_BR[1-2]","",res$sample)
-
 # visualize
 ggplot(res,aes(PC1,PC2,col=condition))+ 
   geom_point(size=5)+
   # ggforce::geom_mark_ellipse(aes(fill=condition)) +
   theme_classic2() +
-  scale_color_manual(values=c("#fde725ff","#37b578ff","#43377fff"),labels=c("Nut.0h","Nut.1h","Nut.10h")) +
-  scale_fill_manual(values=c("#fde725ff","#37b578ff","#43377fff"),labels=c("Nut.0h","Nut.1h","Nut.10h")) +
+  scale_color_manual(values=c("#fde725ff","#43377fff","#37b578ff")) +
+  scale_fill_manual(values=c("#fde725ff","#43377fff","#37b578ff")) +
   xlab(paste0("PC1 (",summary(pca_res)$importance[2,1]*100,"%)")) +
   ylab(paste0("PC2 (",summary(pca_res)$importance[2,2]*100,"%)")) + 
   labs(fill="",color="")
@@ -46,7 +47,7 @@ ggplot(res,aes(PC1,PC2,col=condition))+
 
 ## Figure 4C ----
 
-pkm <- load_interactions(file = "~/MN4/Scratch_Monica/recalibration_try/peakmatrix_merged_recalibrated2WTDMSO.txt")
+pkm <- load_interactions(file = "../../data/ComplementaryData/PCHiC/peakmatrix_merged_recalibrated2WTDMSO.txt") # chicago output
 pkm <- as.data.frame(pkm@elementMetadata[,grepl("CS_",colnames(pkm@elementMetadata))])
 pkm$id <- 1:nrow(pkm)
 
@@ -74,9 +75,9 @@ draw.pairwise.venn(area1 = length(unique(dmso)),
 
 ## Figure 4E ----
 
-wd <- "~/MN4/Scratch_Monica/recalibration_try/"
+wd <- "../../data/ComplementaryData/PCHiC/"
 
-clean_ibeds <- list.files(path = paste0(wd), pattern = "recalibrated2WTDMSO_cutoff_5.ibed")
+clean_ibeds <- list.files(path = paste0(wd), pattern = "recalibrated2WTDMSO_cutoff_5.ibed",full.names = T) # chicago output
 
 interactions_list <- list()
 PP=NULL
@@ -87,8 +88,8 @@ for (i in clean_ibeds)
 {
   name <- basename(i)
   
-  a <- HiCaptuRe::load_interactions(paste0( "~/MN4/Scratch_Monica/recalibration_try/",i))
-  a <- HiCaptuRe::annotate_interactions(a, annotation ="~/MN4/IJC_3Dchromatin/genomes/human/GRCh37/current/annotations_0393561design/baits_coordinates_annotated_ensembl_gene_id_GRCh37_87.bed")
+  a <- HiCaptuRe::load_interactions(i)
+  a <- HiCaptuRe::annotate_interactions(a, annotation ="../../data/ComplementaryData/PCHiC/baits_coordinates_annotated_ensembl_gene_id_GRCh37_87.bed")
   a_cis <- a[is.cis(a)]
   
   a_distances <- HiCaptuRe::distance_summary(interactions = a_cis, sample = name)
@@ -126,17 +127,14 @@ N_short_interactions.df_merged <- N_short_interactions.df[ , !grepl( "_1|_2" , n
 
 samples <- list(N_short_interactions.df_BR[,-1],N_short_interactions.df_merged[,-1])
 
-for (i in 1:length(samples))
-{
-  chisq <- chisq.test(samples[[i]])
-  print(chisq)
-  corrplot(chisq$residuals, is.cor = FALSE,tl.col="black", method="circle",col=colorRampPalette(c("#23447f","#ffffff","#881010"))(100), sig.level = 0.005, insig = "blank") 
-}
+chisq <- chisq.test(samples[[2]])
+corrplot(chisq$residuals, is.cor = FALSE,tl.col="black", method="circle",col=colorRampPalette(c("#23447f","#ffffff","#881010"))(100), sig.level = 0.005, insig = "blank") 
+
 
 
 ## Figure 4F ----
 
-pkm <- HiCaptuRe::load_interactions(file = "~/MN4/Scratch_Monica/recalibration_try/peakmatrix_merged_recalibrated2WTDMSO.txt")
+pkm <- load_interactions(file = "../../data/ComplementaryData/PCHiC/peakmatrix_merged_recalibrated2WTDMSO.txt") # chicago output
 pkm2 <- as.matrix(pkm@elementMetadata[,6:c(ncol(pkm@elementMetadata)-1)])
 pkm2 <-  asinh(pkm2)
 
@@ -197,7 +195,7 @@ col <- circlize::colorRamp2(breaks = c(0,asinh(4.99), asinh(5), mediann+3*madn),
 x <- ComplexHeatmap::Heatmap(as.matrix(Fig_4_results$newtbl[,-c(4)]),col=col,cluster_rows = T,cluster_columns = F,split = Fig_4_results$newtbl$group,border=T,show_heatmap_legend = F)
 ComplexHeatmap::draw(x)
 
-pdf(paste0("~/MEGAsync/scripts/p53/Figures/Fig_4/4I_2.pdf"),width = 9,height = 12)
+pdf(paste0("heatmap.pdf"),width = 9,height = 12)
 grid.newpage()
 ComplexHeatmap::draw(ComplexHeatmap::Legend(col_fun=col))
 dev.off()
