@@ -525,55 +525,51 @@ p2
 
 
 ## Figure 5K ----
-# qRT-PCR relative expression of distal target genes
 
-x <- read_rds("../../data/ComplementaryData/qrtpcr/qRTPCR_relative_expression.Rds")
+x <- read_rds("../../data/ComplementaryData/qrtpcr/qRTPCR_relative_expression_distal_genes.Rds")
 
-
-x <- x %>% group_by(Cond,variable) %>% summarize(mean=mean(value),sd=sd(value))
-x <- x[grepl("WT",x$Cond),]
-x$Cond <- factor(x$Cond,levels = c("WTNut0h","WTNut1h","WTNut10h"))
-x <- x[!x$variable %in% c("PPP1CB","CHD4","ACTR8","TP53","TGFA","BAX","CDKN1A"),]
-p<- ggplot(x, aes(x=variable, y=mean, fill=Cond)) + 
+x$Timepoint <- factor(x$Timepoint,levels = c("Nut0h","Nut1h","Nut10h"))
+x$GeneID <- factor(x$GeneID,c("TGFBR2","GSR","LAMC1","PLK2","JAG2","BRD7","PPM1D","TENT4B","TEP1","CD9","S100A1","PCM1"))
+p<- ggplot(x, aes(x=GeneID, y=Mean, fill=Timepoint)) + 
   geom_bar(stat="identity", color="black", 
            position=position_dodge()) +
-  geom_errorbar(aes(ymin=mean-sd,ymax=mean+sd), width=.2,
+  geom_errorbar(aes(ymin=Mean-StandardDeviation,ymax=Mean+StandardDeviation), width=.2,
                 position=position_dodge(.9)) + 
   ggpubr::theme_classic2() + 
-  scale_fill_manual(values = c("yellow","green","purple"))
+  scale_fill_manual(values = c("yellow","green","purple")) +
+  labs(x="",y="Relative nascent mRNA expression (FC)") +
+  ggbreak::scale_y_cut(breaks=c(7))
 
 # visualise
 p
 
 ### T-test between timepoints within genes
-## WTNutlin10h vs. WTDMSO
-df <- as.data.frame(matrix(nrow=4))[,-1]
-for(gene in unique(x$variable)){
-  print(gene)
-  res <- t.test(x[x$Cond=="WTNut0h"&x$variable==gene,]$value,x[x$Cond=="WTNut10h"&x$variable==gene,]$value,alternative = "two.sided")
-  testres <- res[[1]]
-  dfres <- res[[2]]
-  pvalue <- res[[3]]
-  vec <- unlist(c(gene,testres,dfres,pvalue))
-  df <- rbind(df,as.data.frame(t(as.data.frame(vec))))
-}
-rownames(df) <- 1:nrow(df)
-colnames(df) <- c("gene","t.test.stat","t.test.df","t.test.pval")
-df$comparison <- "WTNut10h.WTNut0h"
-df1 <- df
+x <- reshape2::melt(x[,1:10],colnames(x)[1:4])
+x <- x[!is.na(x$value),]
+x$variable <- as.character(x$variable)
 
-## WTNutlin1h vs. WTDMSO
-df <- as.data.frame(matrix(nrow=4))[,-1]
-for(gene in unique(x$variable)){
-  print(gene)
-  res <- t.test(x[x$Cond=="WTNut0h"&x$variable==gene,]$value,x[x$Cond=="WTNut1h"&x$variable==gene,]$value,alternative = "two.sided")
-  testres <- res[[1]]
-  dfres <- res[[2]]
-  pvalue <- res[[3]]
-  vec <- unlist(c(gene,testres,dfres,pvalue))
-  df <- rbind(df,as.data.frame(t(as.data.frame(vec))))
+df_list <- list()
+j <- 1
+for(timepoint in grep("Nut0h",unique(x$Timepoint),value=T,invert=T)){
+  df <- as.data.frame(matrix(nrow=4))[,-1]
+  
+  for(gene in unique(x[x$Timepoint==timepoint, ]$GeneID)){
+    print(paste0(timepoint,": ",gene))
+    res <- t.test(x=x[x$Timepoint==timepoint & x$GeneID==gene, ]$value,
+                  y=x[x$Timepoint=="Nut0h" & x$GeneID==gene, ]$value,
+                  alternative="greater")
+    pvalue <- res[[3]]
+    vec <- unlist(c(gene, timepoint, pvalue))
+    df <- rbind(df,as.data.frame(t(as.data.frame(vec))))
+  }
+  rownames(df) <- 1:nrow(df)
+  colnames(df) <- c("variable","Timepoint","pvalue")
+  df_list[[j]] <- df
+  j<-j+1
 }
-rownames(df) <- 1:nrow(df)
-colnames(df) <- c("gene","t.test.stat","t.test.df","t.test.pval")
-df$comparison <- "WTNut1h.WTNut0h"
-df2 <- df
+
+df_stats <- do.call("rbind",df_list)
+df_stats$pvalue <- ifelse(as.numeric(df_stats$pvalue)<0.05,yes="*",no="ns")
+df_stats$pvalue[is.na(df_stats$pvalue)] <- ""
+df_stats$Timepoint <- paste0(df_stats$Timepoint," vs. Nut0h")
+
