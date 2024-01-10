@@ -189,3 +189,79 @@ df_stats <- do.call("rbind",df_list)
 df_stats$pvalue <- ifelse(as.numeric(df_stats$pvalue)<0.05,yes="*",no="ns")
 df_stats$pvalue[is.na(df_stats$pvalue)] <- ""
 df_stats$Condition <- "WT vs. KD"
+
+# Figure 7I ----
+x <- read_rds("../../data/ComplementaryData/qrtpcr/qRTPCR_relative_expression_CRISPR_validation.Rds")
+x <- x[x$GeneID %in% c("S100A1","PCM1"),]
+x <- x[,-c(5:10)]
+x$Condition <- gsub("clone ","",x$Condition)
+
+x1 <- x[x$GeneID=="S100A1",]
+x2 <- x[x$GeneID=="PCM1",]
+
+x1$Condition <- factor(x1$Condition,levels = c("WT","p53BS-/- S100A1 1","p53BS-/- S100A1 2"))
+p1<- ggplot(x1, aes(x=Timepoint, y=Mean, fill=Condition)) + 
+  geom_bar(stat="identity", color="black", 
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=Mean-StandardDeviation,ymax=Mean+StandardDeviation), width=.2,
+                position=position_dodge(.9)) + 
+  ggpubr::theme_classic2() + 
+  scale_fill_manual(values = c("white","darkgrey","black"))+
+  labs(x="Timepoint",y="Realtive nascent mRNA expression (FC)")
+
+
+x2$Condition <- factor(x2$Condition,levels = c("WT","p53BS-/- PCM1 1","p53BS-/- PCM1 2"))
+p2<- ggplot(x2, aes(x=Timepoint, y=Mean, fill=Condition)) + 
+  geom_bar(stat="identity", color="black", 
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=Mean-StandardDeviation,ymax=Mean+StandardDeviation), width=.2,
+                position=position_dodge(.9)) + 
+  ggpubr::theme_classic2() + 
+  scale_fill_manual(values = c("white","darkgrey","black"))+
+  labs(x="Timepoint",y="Realtive nascent mRNA expression (FC)")
+
+# visualise
+ggarrange(p1,p2)
+
+
+# statistics
+x <- read_rds("../../data/ComplementaryData/qrtpcr/qRTPCR_relative_expression_CRISPR_validation.Rds")
+x <- x[,-c(11:12)]
+x <- reshape2::melt(x,colnames(x)[1:4])
+x <- x[!is.na(x$value),]
+x <- x[x$GeneID %in% c("S100A1","PCM1"),]
+
+df_list <- list()
+j <- 1
+for(condition in grep("WT",unique(x$Condition),invert=T,value=T)){
+  df <- as.data.frame(matrix(nrow=4))[,-1]
+  
+  for(gene in unique(x[x$Condition==condition, ]$GeneID)){
+    print(paste0(condition,": ",gene))
+    res <- t.test(x=x[x$Condition=="WT" & x$Timepoint=="Nut1h" & x$GeneID==gene, ]$value,
+                  y=x[x$Condition==condition & x$Timepoint=="Nut1h" &  x$GeneID==gene, ]$value,
+                  alternative="greater")
+    pvalue <- res[[3]]
+    vec <- unlist(c(gene, condition,"Nut1h", pvalue))
+    df <- rbind(df,as.data.frame(t(as.data.frame(vec))))
+    
+    print(paste0(condition,": ",gene))
+    res <- t.test(x=x[x$Condition=="WT" & x$Timepoint=="Nut0h" & x$GeneID==gene, ]$value,
+                  y=x[x$Condition==condition & x$Timepoint=="Nut0h" &  x$GeneID==gene, ]$value,
+                  alternative="greater")
+    pvalue <- res[[3]]
+    vec <- unlist(c(gene, condition,"Nut0h", pvalue))
+    df <- rbind(df,as.data.frame(t(as.data.frame(vec))))
+    
+  }
+  rownames(df) <- 1:nrow(df)
+  colnames(df) <- c("variable","Condition","Timepoint","pvalue")
+  df_list[[j]] <- df
+  j<-j+1
+}
+
+df_stats <- do.call("rbind",df_list)
+df_stats$pvalue <- ifelse(as.numeric(df_stats$pvalue)<0.05,yes="*",no="ns")
+df_stats$pvalue[is.na(df_stats$pvalue)] <- ""
+df_stats$Condition <- paste0("WT vs. ",df_stats$Condition)
+df_stats
