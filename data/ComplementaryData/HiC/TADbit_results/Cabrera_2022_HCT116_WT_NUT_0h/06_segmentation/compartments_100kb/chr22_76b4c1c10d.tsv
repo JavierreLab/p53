@@ -1,0 +1,23 @@
+#	start	end	rich in A	type
+chr22	164	181	0.36	B
+chr22	182	183	0.95	A
+chr22	184	184	nan	B
+chr22	185	227	0.38	A
+chr22	228	228	nan	B
+chr22	229	230	0.92	A
+chr22	231	231	nan	B
+chr22	232	232	nan	A
+chr22	233	234	0.92	B
+chr22	235	255	0.50	A
+chr22	256	291	0.46	B
+chr22	292	324	0.49	A
+chr22	325	357	0.45	B
+chr22	358	438	0.50	A
+chr22	439	443	0.59	B
+chr22	444	444	nan	A
+chr22	445	450	0.61	B
+chr22	451	453	0.79	A
+chr22	454	454	nan	B
+chr22	455	472	0.50	A
+chr22	473	501	0.51	B
+chr22	502	513	0.53	A

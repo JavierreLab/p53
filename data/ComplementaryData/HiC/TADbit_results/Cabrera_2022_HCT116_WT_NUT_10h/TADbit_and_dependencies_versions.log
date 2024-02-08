@@ -1,0 +1,12 @@
+         TADbit : v1.1
+
+
+        Machine : 4.4.59-92.20-default x86_64 GNU/Linux
+
+            IMP : 2.16.0 (random seed indexed at 1 = 1791095845)
+            MCL : 14-137
+     gem-mapper : Not found
+       gemtools : Not found
+     matplotlib : 3.5.1
+          numpy : 1.22.2
+          scipy : 1.8.0
