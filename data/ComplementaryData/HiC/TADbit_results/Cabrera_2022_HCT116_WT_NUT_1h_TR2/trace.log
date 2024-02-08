@@ -1,0 +1,8 @@
+# MAPPED READ2	92452951	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/01_mapped_r2/Human_HCT116_WT-Nutlin1h_HiC_BR1-LRM_TR2__220107-Hi-C-HCT116-Nut-1h__2_full_1-end_6018d61397.map
+# MAPPED READ2	36759354	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/01_mapped_r2/Human_HCT116_WT-Nutlin1h_HiC_BR1-LRM_TR2__220107-Hi-C-HCT116-Nut-1h__2_frag_1-end_6018d61397.map
+# MAPPED READ1	92452951	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/01_mapped_r1/Human_HCT116_WT-Nutlin1h_HiC_BR1-LRM_TR2__220107-Hi-C-HCT116-Nut-1h__1_full_1-end_0a47bb8150.map
+# MAPPED READ1	34779713	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/01_mapped_r1/Human_HCT116_WT-Nutlin1h_HiC_BR1-LRM_TR2__220107-Hi-C-HCT116-Nut-1h__1_frag_1-end_0a47bb8150.map
+# PARSED READ0 PATH	53467351	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/02_parsed_reads/TR2_r2_4ff98cd4f1.tsv
+# PARSED READ0 PATH	57673238	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/02_parsed_reads/TR2_r2_4ff98cd4f1.tsv
+# PARSED READ1 PATH	50771010	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/02_parsed_reads/TR2_r1_4ff98cd4f1.tsv
+# PARSED READ1 PATH	55693597	/gpfs/scratch/bsc08/bsc08978/db/hi-c/processed/Cabrera_2022_HCT116_WT_NUT_1h_reps/TR2/02_parsed_reads/TR2_r1_4ff98cd4f1.tsv

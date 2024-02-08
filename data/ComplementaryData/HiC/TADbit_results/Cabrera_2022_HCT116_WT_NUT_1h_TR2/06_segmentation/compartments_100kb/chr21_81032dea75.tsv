@@ -1,0 +1,14 @@
+#	start	end	rich in A	type
+chr21	95	418	0.35	A
+chr21	419	421	0.60	B
+chr21	422	444	0.50	A
+chr21	445	445	nan	B
+chr21	446	450	0.66	A
+chr21	451	455	0.63	B
+chr21	456	456	nan	A
+chr21	457	459	0.83	B
+chr21	460	462	0.76	A
+chr21	463	465	0.81	B
+chr21	466	476	0.57	A
+chr21	477	478	1.02	B
+chr21	479	481	0.69	A

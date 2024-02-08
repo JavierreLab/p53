@@ -1,0 +1,11 @@
+         TADbit : v1.1
+
+
+        Machine : 3.10.0-1160.53.1.el7.x86_64 x86_64 GNU/Linux
+
+            MCL : 14-137
+     gem-mapper : Not found
+       gemtools : Not found
+     matplotlib : 3.5.1
+          numpy : 1.21.2
+          scipy : 1.7.3

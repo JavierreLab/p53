@@ -1,0 +1,15 @@
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_1.fq.gz READ1]   Writing versions of TADbit and dependencies
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_1.fq.gz READ1]   Generating Hi-C QC plot
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_1.fq.gz READ1]     - Dangling-ends (sensu-stricto): 3.257%
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_1.fq.gz READ1]     - Ligation sites: 3.378%
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_1.fq.gz READ1]   mapping /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_1.fq.gz read 1 to /mnt/beegfs/fserra/Projects/p53/NUT_w48h_100M_BR1
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_2.fq.gz READ2]   Writing versions of TADbit and dependencies
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_2.fq.gz READ2]   Generating Hi-C QC plot
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_2.fq.gz READ2]     - Dangling-ends (sensu-stricto): 2.787%
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_2.fq.gz READ2]     - Ligation sites: 3.385%
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_2.fq.gz READ2]   mapping /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_2.fq.gz read 2 to /mnt/beegfs/fserra/Projects/p53/NUT_w48h_100M_BR1
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_1.fq.gz READ1]   cleaning temporary files
+[MAPPING /mnt/beegfs/fserra/Projects/p53/FASTQs/NUT_w48h_rep1_2.fq.gz READ2]   cleaning temporary files
+[PARSING]   Writing versions of TADbit and dependencies
+[PARSING]   parsing genomic sequence
+[PARSING]   parsing reads in NUT_w48h_BR1 project
