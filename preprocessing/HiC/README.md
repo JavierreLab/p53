@@ -7,10 +7,11 @@ Here, you can find a detailed description of how RNA-seq data was processed in t
 ## Dependencies
 
 * [TADbit](https://github.com/fransua/tadbit/tree/p53_javierre) ([Serra et al. 2017](https://doi.org/10.1371/journal.pcbi.1005665))
+* [GEM3](https://github.com/smarco/gem3-mapper) ([Marco-Sola et al. 2012](https://doi.org/10.1038/nmeth.2221))
 
 ## Summary of TADbit workflow
 
-1. **Alignment**: hisat2 
+1. **Alignment**: "restriction-enzyme aware" alignment with GEM3 
 2. **Parsing**: pull sequencing lanes and replicates together
 3. **Filtering**: remove non-canonical di-tags
 4. **Normalizing**: remove Hi-C specific biases
