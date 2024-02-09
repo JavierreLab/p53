@@ -14,4 +14,4 @@ Proportion of A/B Compartments per condition.
 
 ## PCA Compartments
 
-Contains the PCA done on compartments. Also the dendrogram of weigted euclidian distance computed on first PCs.
+Contains the PCA done on compartments. Also the dendrogram of weighted euclidian distance computed on first PCs.

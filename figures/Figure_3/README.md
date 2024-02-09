@@ -7,6 +7,6 @@ Contains code to reproduce figures about Differential compartment score dependin
 ## Figure 3 - old
 
 - Figures to show compartment score changes withrespect to the presence of p53
-- Figures representing correlationof compartment scores between all condition pairs.
+- Figures representing correlation of compartment scores between all condition pairs.
 
   
