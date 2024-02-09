@@ -15,8 +15,8 @@ Here, you can find a detailed description of how RNA-seq data was processed in t
 2. **Parsing**: pull sequencing lanes and replicates together
 3. **Filtering**: remove non-canonical di-tags
 4. **Normalizing**: remove Hi-C specific biases
-5. **Compartments calling**: call for A/B compartments
-6. **TAD calling**: call for Topologically Associating Domains (TADs)
+5. **Compartments calling**: call for A/B compartments and manual curation
+6. **TAD calling**: call for Topologically Associating Domains (TADs) and insulation score
 
 
 ## 1. Alignment
