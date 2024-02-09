@@ -96,3 +96,5 @@ do
   tadbit segment -w HCT116_WT_NUT_1h --cpu 16 --only_tads --noX --reso 50000 -c $chrom
 done
 ```
+
+TAD borders generated are then aligned and insulation score along the genome is computed. See the `Align TAD-borders and compute insulation scores` notebooks.
