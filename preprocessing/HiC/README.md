@@ -77,7 +77,7 @@ tadbit normalize -w HCT116_WT_NUT_1h -r 1000000 -C 24 --normalization Vanilla --
 
 Compartments were called using individual chromosomic normalized matrices. These matrices were further normalized by distance, and a Pearson correlation matrix was then computed. First and second eigen vector of these matrices were kept. A  compartments were associated a given eigenvector sign (positive or negative) depending on its GC content.
 
-The choice of which eigenvector to use (first or second) was decided by manual inspection of each result chromosome by chromosome.
+The choice of which eigenvector to use (first or second) was decided by manual inspection of each result chromosome by chromosome (see Notebooks about `Compartments-parameter exploration`).
 
 ```
 for chrom in {{1..22},X}
