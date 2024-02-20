@@ -91,13 +91,13 @@ annot$condition <- relevel(annot$condition,"Sample1")
 
 dds <- DESeqDataSetFromMatrix(countData = count_matrix,
                               colData = annot,
-                              design = ~ tissue)
+                              design = ~ condition)
 
 dds <- estimateSizeFactors(dds)
 
 dds <- DESeq(dds)
 
-res <- results(dds,contrast=c("tissue","Sample1","Sample2"))
+res <- results(dds,contrast=c("condition","Sample1","Sample2"))
 
 ```
 
