@@ -82,8 +82,15 @@ colnames(count_matrix) <- c("geneID","Sample1_1", "Sample1_2", "Sample2_1", "Sam
 rownames(count_matrix) <- count_matrix$geneID
 count_matrix$geneID <- NULL
 
+
+annot <- data.frame(sample = colnames(countdata))
+annot <- cbind(annot, annot %>% separate(col = sample, into = c("condition","replicate"),sep = "_"))
+annot$condition <- factor(annot$condition,levels = unique(annot$condition))
+annot$condition <- relevel(annot$condition,"Sample1")
+
+
 dds <- DESeqDataSetFromMatrix(countData = count_matrix,
-                              colData = coldata,
+                              colData = annot,
                               design = ~ tissue)
 
 dds <- estimateSizeFactors(dds)
