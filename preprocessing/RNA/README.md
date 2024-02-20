@@ -83,7 +83,7 @@ rownames(count_matrix) <- count_matrix$geneID
 count_matrix$geneID <- NULL
 
 
-annot <- data.frame(sample = colnames(countdata))
+annot <- data.frame(sample = colnames(count_matrix))
 annot <- cbind(annot, annot %>% separate(col = sample, into = c("condition","replicate"),sep = "_"))
 annot$condition <- factor(annot$condition,levels = unique(annot$condition))
 annot$condition <- relevel(annot$condition,"Sample1")
