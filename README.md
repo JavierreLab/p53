@@ -1,7 +1,8 @@
-<img src="https://github.com/JavierreLab/p53/assets/86778675/fca5a6f5-e09a-44a1-a12d-9e1fcc0d6299"  width="300" ALIGN="right">
 
 # p53 rapidly restructures 3D chromatin organization to trigger a transcriptional response
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8075024.svg)](https://doi.org/10.5281/zenodo.8075024)
+
+<img src="https://github.com/JavierreLab/p53/assets/86778675/fca5a6f5-e09a-44a1-a12d-9e1fcc0d6299"  width="300" ALIGN="right">
 
 This repository contains the necessary data and scripts to reproduce the main figures of the  manuscript.
 
