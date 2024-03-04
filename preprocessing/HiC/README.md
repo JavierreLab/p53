@@ -27,7 +27,7 @@ Here an example with the Nutlin1a-1h sample (one command per read-end):
 
 ```
 tadbit map -w HCT116_WT_NUT_1h --mapper gem --mapper_binary gem3-mapper --fastq HCT116_HiC_Nut1h_BR1_1.fq.gz --index hg19.gem3 --renz HindIII --read 1 -C 24 --noX  --mapper_param "--alignment-local-min-identity 15"
-tadbit map -w Cabrera_2022_HCT116_WT_DMSO --mapper gem --mapper_binary gem3-mapper --fastq HCT116_HiC_Nut1h_BR1_1.fq.gz --index hg19.gem3 --renz HindIII --read 1 -C 24 --noX  --mapper_param "--alignment-local-min-identity 15"
+tadbit map -w HCT116_WT_NUT_1h --mapper gem --mapper_binary gem3-mapper --fastq HCT116_HiC_Nut1h_BR1_2.fq.gz --index hg19.gem3 --renz HindIII --read 2 -C 24 --noX  --mapper_param "--alignment-local-min-identity 15"
 ```
 *Note: TADbit uses fragment based mapping by default. Full length read end will be mapped first. Then, for unmapped reads, TADbit will search for restriction-ezmyme specific ligation site and map the corresponding read-end fragments independently.*
 
