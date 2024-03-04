@@ -14,9 +14,7 @@ The `figures` folder contains script and folder to (re)generate stats and figure
 
 ## Dependencies
 
-Specific dependencies are listed in each [preprocessing](https://github.com/JavierreLab/p53/tree/main/preprocessing) section (see below), and in the [figures](https://github.com/JavierreLab/p53/tree/main/figures/) section (see below).
-
-## Preprocessing
+Specific dependencies are listed in each [preprocessing](https://github.com/JavierreLab/p53/tree/main/preprocessing) section:
 
 | Datatype | Short description |
 |----------|------|
@@ -25,7 +23,7 @@ Specific dependencies are listed in each [preprocessing](https://github.com/Javi
 | [PCHi-C](https://github.com/JavierreLab/p53/tree/main/preprocessing/PCHiC)    |  Mapping and significant interactions calling |
 | [RNA-seq](https://github.com/JavierreLab/p53/tree/main/preprocessing/RNA)  |  Trimming, mapping and differential expression analysis  |
 
-## Figures
+and in the [figures](https://github.com/JavierreLab/p53/tree/main/figures/) section:
 
 |||
 |---|---|
