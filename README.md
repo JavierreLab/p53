@@ -35,3 +35,9 @@ and in the [figures](https://github.com/JavierreLab/p53/tree/main/figures/) sect
 | [Figure 6](https://github.com/JavierreLab/p53/tree/main/figures/Figure_6) |  p53 drives the formation of promoter-enhancer interactions or uses pre-established ones to control gene transcription over distance. |
 | [Figure 7](https://github.com/JavierreLab/p53/tree/main/figures/Figure_7) |  Cohesin depletion impedes p53-mediates transcriptional response.  |
 | [Supplementary](https://github.com/JavierreLab/p53/tree/main/figures/Supplementary_Figures_bulk) |  Scripts related to supplementary panels. |
+
+## Reference
+
+Serra, F., Nieto-Aliseda, A., Fanlo-Escudero, L. et al. <br/>
+p53 rapidly restructures 3D chromatin organization to trigger a transcriptional response. <br/>
+Nat Commun 15, 2821 (2024). [doi:10.1038/s41467-024-46666-1](https://doi.org/10.1038/s41467-024-46666-1)
